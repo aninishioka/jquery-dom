@@ -74,7 +74,39 @@
 </div>
 <script src="https://unpkg.com/jquery"></script>
 <script>
-  // Add your code here!
+  //1.
+  $('article img').addClass('image-center');
+
+  //2.
+  $('article p:last-of-type').remove();
+
+  //3.
+  //element.style.fontSize =
+  $('#title').css('fontSize', `${Math.floor(Math.random() * 101)}px`);
+
+  //4.
+  $('ol').append($('<li>Keeps things organized.</li>'));
+
+  //5.
+  $('aside')
+  .html('')
+  .append(`<p>Sorry for the list!</p>`);
+
+  //6.
+  $('input').on('change', (evt) => {
+    const $colorInputs = $('input');
+    const red = $colorInputs.eq(0).val();
+    const green = $colorInputs.eq(1).val();
+    const blue = $colorInputs.eq(2).val();
+    const rgb = `rgb(${red}, ${green}, ${blue})`;
+    $('body').css('backgroundColor', rgb);
+  });
+
+  //7.
+  $('.container').on('click', 'img', (evt) => {
+    $(evt.target).remove();
+  })
+
 </script>
 </body>
 
