@@ -8,30 +8,64 @@
 </head>
 
 <body>
+  <form>
+    <fieldset>
+      <legend>Sort By:</legend>
+      <input type="radio" name="sort-by" id="radio-movie" value="movie">
+      <label for="radio-movie">Movie</label>
+      <input type="radio" name="sort-by" id="radio-rating" value="rating">
+      <label for="radio-rating">Rating</label>
+      <button id="sort">Sort</button>
+    </fieldset>
+  </form>
   <div id="container"></div>
   <form>
     <input type="text" id="title">
-    <input type="range" id="rating" min="0" max="5">
-    <button>Submit</button>
+    <input type="range" id="rating" min="0" max="10">
+    <button id="add-movie-btn">Submit</button>
   </form>
   <script src="https://unpkg.com/jquery"></script>
   <script>
-    $("form button").on("click", (evt) => {
-    evt.preventDefault();
-     const titleInput = $("#title").val();
-     const ratingInput = $("#rating").val();
-     addMovie(titleInput,ratingInput);
-    })
+    $("#add-movie-btn").on("click", (evt) => {
+      evt.preventDefault();
+      const titleInput = $("#title").val();
+      const ratingInput = $("#rating").val();
+      if (validateTitle(titleInput)) {
+        addMovie(titleInput, ratingInput);
+      } else {
+        alert("Title must be at least 2 characters");
+      }
+    });
 
-    function addMovie(titleInput, ratingInput){
-      $("#container").append(`<div>Title: ${titleInput}, Rating: ${ratingInput} <button class = "delete">Delete</button> </div>` )
+    function validateTitle(title) {
+      return (title.length >= 2);
+    }
+
+    function addMovie(titleInput, ratingInput) {
+      $("#container").append(`<div class="movie">Title: <span class='movie-title'>${titleInput}</span>, Rating: <span class='movie-rating'>${ratingInput}</span> <button class = "delete">Delete</button> </div>`);
     }
 
     $("#container").on("click", "button.delete", (evt) => {
       $(evt.target).parent().remove();
-    })
+    });
+
+    $('#sort').on('click', (evt) => {
+      evt.preventDefault();
+      const movies = $(".movie").get();
+      console.log(movies);
+      movies.sort((movie1, movie2) => {
+        const movie1Title = movie1.querySelector('.movie-title').innerText;
+        const movie2Title = movie2.querySelector('.movie-title').innerText;
+        return movie1Title.localeCompare(movie2Title);
+      });
+      movies.forEach(movie => {
+        console.log("movie=", movie);
+        $("#container").append($(movie))
+      });
+    });
 
 
   </script>
 </body>
+
 </html>
